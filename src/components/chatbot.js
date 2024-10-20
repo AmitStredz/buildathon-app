@@ -1,5 +1,5 @@
 import React from "react";
-import "@elna-ai/chat-widget";
+import "@amalendu123/chat-widget";
 
 export default function Chatbot() {
   return (

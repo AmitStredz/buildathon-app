@@ -42,7 +42,7 @@ export default function HomePage() {
 
       <div className="w-full p-20 flex justify-center items-center">
         <div className="flex flex-col w-full p-20">
-          <h1 className="text-[50px] font-bold leading-8">Hey Amit!</h1>
+          <h1 className="text-[50px] font-bold leading-8">Hey Sinnu!</h1>
           <span className="text-[40px] ">
             I'm Bayaxx, your personal healthcare assistant.
           </span>
