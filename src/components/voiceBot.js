@@ -209,6 +209,9 @@ const VoiceRecorder = ({
 
       await passToSmartContract(hash);
       console.log("SUccessfully uploaded to smart contract...");
+
+      setTranscript("");
+      onSuccess();
     }
     // setLoading(false);
   };
@@ -234,6 +237,7 @@ const VoiceRecorder = ({
 
       return res.data.IpfsHash; // Pinata returns the IPFS hash
     } catch (error) {
+      onFailure();
       console.error("Error uploading to Pinata:", error);
       return null;
     }
