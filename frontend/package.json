@@ -12,7 +12,7 @@
     "@amalendu123/chat-widget": "^2.0.3",
     "axios": "^1.7.7",
     "ethers": "^6.13.4",
-    "next": "14.2.15",
+    "next": "^14.2.15",
     "react": "^18",
     "react-dom": "^18",
     "react-icons": "^5.3.0"

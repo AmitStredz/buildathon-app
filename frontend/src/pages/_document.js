@@ -5,7 +5,7 @@ export default function Document() {
     <Html lang="en">
       <Head>
         <title>Buildathon</title>
-        <link rel="icon" href="logo2.jpg" />
+        <link rel="icon" href="/assets/logo4.png" />
         <link rel="apple-touch-icon" href="logo4.png" />
 
         <meta
