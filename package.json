@@ -10,6 +10,9 @@
   },
   "dependencies": {
     "@amalendu123/chat-widget": "^2.0.3",
+    "@dfinity/agent": "^2.1.2",
+    "@dfinity/auth-client": "^2.1.2",
+    "@dfinity/identity": "^2.1.2",
     "axios": "^1.7.7",
     "ethers": "^6.13.4",
     "next": "^14.2.15",

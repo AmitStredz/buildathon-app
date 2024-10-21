@@ -7,7 +7,6 @@ export default function Document() {
         <title>Buildathon</title>
         <link rel="icon" href="/assets/logo4.png" />
         <link rel="apple-touch-icon" href="logo4.png" />
-
         <meta
           name="description"
           content="Brief description of your page content here"
