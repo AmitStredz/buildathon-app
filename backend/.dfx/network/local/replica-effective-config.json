@@ -1,0 +1,30 @@
+{
+  "replica_rev": "3d0b3f10417fc6708e8b5d844a0bac5e86f3e17d",
+  "type": "replica",
+  "config": {
+    "http_handler": {
+      "port": null,
+      "write_port_to": "/home/amalendum/NIT hackthon/medical/medical/.dfx/network/local/replica-configuration/replica-1.port"
+    },
+    "state_manager": {
+      "state_root": "/home/amalendum/NIT hackthon/medical/medical/.dfx/network/local/state/replicated_state"
+    },
+    "crypto": {
+      "crypto_root": "/home/amalendum/NIT hackthon/medical/medical/.dfx/network/local/state/crypto_store"
+    },
+    "artifact_pool": {
+      "consensus_pool_path": "/home/amalendum/NIT hackthon/medical/medical/.dfx/network/local/state/consensus_pool"
+    },
+    "subnet_type": "application",
+    "btc_adapter": {
+      "enabled": false,
+      "socket_path": null
+    },
+    "canister_http_adapter": {
+      "enabled": true,
+      "socket_path": "/tmp/ic-https-outcalls-adapter-socket.688508.1729377220"
+    },
+    "log_level": "error",
+    "artificial_delay": 600
+  }
+}

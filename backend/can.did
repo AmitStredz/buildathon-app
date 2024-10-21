@@ -1,0 +1,11 @@
+type DateData = record {
+    date : int64;
+    ccids : vec nat32;
+};
+
+service : {
+    add : (text) -> (nat32);
+    get_date_data : (int64) -> (opt DateData) query;
+    get_all_data : () -> (vec DateData) query;
+    format_date : (int64) -> (text) query;
+}
