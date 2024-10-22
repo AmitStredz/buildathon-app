@@ -57,8 +57,8 @@ The `.did` file contains the interface definition for the smart contract interac
 ## **How to Run the Project Locally**
 1. Cone the repository:
 ```
-git clone https://github.com/your-repo/elna.git
-cd elna
+git clone https://github.com/AmitStredz/buildathon-app.git
+cd buildathon-app
 ```
 
 2. Install Dependencies:
@@ -67,13 +67,17 @@ npm install
 ```
 3. Start Local Development Environment: Ensure `dfx` is installed and set up. Then, run:
 ```
-dfx start
+dfx start --playground
 ```
-4. Deploy Smart Contract Locally:
+4.Build the Canisters: This will compile the smart contracts (canisters):
+```
+dfx build
+```
+5. Deploy Smart Contract Locally:
 ```
 dfx deploy
 ```
-5. Run the Frontend:
+6. Run the Frontend:
 ```
-npm start
+npm run dev
 ```
