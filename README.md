@@ -41,7 +41,8 @@ As part of the project, we have integrated a custom chat-widget based on the ori
 
 You can find the repository for the chat-widget here:
 
-ELna AI Chat-Widget Repository: ```
+ELna AI Chat-Widget Repository: 
+```
 https://github.com/amalendu123/chat-widget.git
 ```
 
@@ -52,9 +53,9 @@ Baymax is fully deployed on the Internet Computer (ICP) blockchain, enabling it 
 
 - Canister ID: The project is hosted on an ICP canister, which handles the smart contract execution.
 
-* ICP Smart Contract: The smart contract stores users’ IPFS hashes, ensuring that the data is only accessible to the owner of the hash and never controlled by a third party. -->
+* ICP Smart Contract: The smart contract stores users’ IPFS hashes, ensuring that the data is only accessible to the owner of the hash and never controlled by a third party.
 
-<!-- ## **Code Breakdown**
+## **Code Breakdown**
 
 - Frontend Integration: The frontend of this project, built using NextJs, includes a voice recording feature that captures user inputs, uploads the file to IPFS, and interacts with the ICP smart contract to store the IPFS hash. Key files:
 
