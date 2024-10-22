@@ -55,28 +55,24 @@ The `.did` file contains the interface definition for the smart contract interac
 
 ## **How to Run the Project Locally**
 1. Cone the repository:
-
-bash
-Copy code
+```
 git clone https://github.com/your-repo/elna.git
 cd elna
-Install Dependencies:
+```
 
-bash
-Copy code
+2. Install Dependencies:
+```
 npm install
-Start Local Development Environment: Ensure dfx is installed and set up. Then, run:
-
-bash
-Copy code
+```
+3. Start Local Development Environment: Ensure `dfx` is installed and set up. Then, run:
+```
 dfx start
-Deploy Smart Contract Locally:
-
-bash
-Copy code
+```
+4. Deploy Smart Contract Locally:
+```
 dfx deploy
-Run the Frontend:
-
-bash
-Copy code
+```
+5. Run the Frontend:
+```
 npm start
+```
