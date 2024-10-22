@@ -48,7 +48,7 @@ The `.did` file contains the interface definition for the smart contract interac
     - IDL (Candid) File:
         ```backend/src/declarations/ccid_tracker/ccid_tracker.did```
 
-## **Technology Stck**
+## **Technology Stack**
 - Frontend: React
 - Backend: ICP Smart Contracts, IPFS for file storage
 - Blockchain: Internet Computer (ICP)
