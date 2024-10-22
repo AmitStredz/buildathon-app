@@ -20,6 +20,7 @@ ELna uses the Internet Computer’s (ICP) decentralized smart contracts to store
 2. Smart Contract Deployment: The IPFS hash is then passed to a smart contract deployed on the ICP blockchain, which securely stores the hash on-chain. This hash acts as a reference to the file, ensuring that the file's integrity and existence can always be verified.
 
     - Smart Contract File: The interface for the ICP smart contract is defined in the `.did` (Candid Interface Definition) file, located at:
+
     ```/backend/src/declarations/ccid_tracker/ccid_tracker.did```
 3. Interaction with Smart Contract: The smart contract on ICP is responsible for storing and retrieving the IPFS hash:
 
@@ -27,7 +28,7 @@ ELna uses the Internet Computer’s (ICP) decentralized smart contracts to store
     - The method `get` retrieves the IPFS hash based on the user’s request.
     Example of the smart contract integration can be found in:
 
-```/frontend/src/components/VoiceRecorder.js```
+    ```/frontend/src/components/VoiceRecorder.js```
 
 
 ## **Deployment on ICP Blockchain**
