@@ -9,3 +9,4 @@ service : {
     get_all_data : () -> (vec DateData) query;
     format_date : (int64) -> (text) query;
 }
+

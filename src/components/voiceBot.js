@@ -2,13 +2,10 @@ import React, { useEffect, useState } from "react";
 import { FaMicrophone } from "react-icons/fa6";
 import { BsFillStopCircleFill } from "react-icons/bs";
 import axios from "axios";
-
 import { Actor, HttpAgent } from "@dfinity/agent";
-import { AuthClient } from "@dfinity/auth-client"; // Used for authentication
-import canisterIDL from "./your_canister_idl"; // Import the IDL of your canister
-import { Principal } from "@dfinity/principal";
 
-const canisterId = "zkfwe-6yaaa-aaaab-qacca-cai";
+// Your contract's candid interface
+import { idlFactory } from "../../backend/src/declarations/ccid_tracker/ccid_tracker"; // Make sure path matches your project structure
 
 const VoiceRecorder = ({
   padding,
@@ -22,13 +19,62 @@ const VoiceRecorder = ({
   const [recognition, setRecognition] = useState(null);
   const [key, setKey] = useState(null);
 
-  useEffect(() => {
-    // This runs only on the client-side
-    const storedKey = localStorage.getItem("key");
-    setKey(storedKey);
-  }, []);
+  const [inputText, setInputText] = useState("");
+  const [status, setStatus] = useState("");
 
-  // const key = localStorage.getItem("key");
+  // Initialize agent and actor
+  const connectAndCall = async (text) => {
+    try {
+      // Create an agent
+      console.log("creating agent...");
+
+      const agent = new HttpAgent({
+        host: "https://ic0.app", // mainnet
+        // host: 'http://localhost:4943', // local
+      });
+
+      // Only needed for local development
+      if (process.env.NODE_ENV !== "production") {
+        await agent.fetchRootKey();
+      }
+
+      // Create an actor
+      console.log("creating actor...");
+
+      const actor = Actor.createActor(idlFactory, {
+        agent,
+        canisterId: "6ldcj-gyaaa-aaaab-qacsa-cai",
+      });
+
+      // Call the add function
+      try {
+        console.log("calling add function...");
+        const result = await actor.add(text);
+        console.log("Smart contract add result: ", result);
+      } catch (error) {
+        console.error("Error while calling smart contract add:", error);
+      }
+      const datedata = await actor.get_all_data();
+
+      console.log("function called: ", result);
+      console.log("Datedata: ", datedata);
+
+      setStatus(`Success! Result: ${result}`);
+    } catch (error) {
+      setStatus(`Error: ${error.message}`);
+    }
+  };
+
+  const connectToSmartContract = async (text) => {
+    // text.preventDefault();
+    console.log("Calling Smart contract...");
+
+    setStatus("Calling smart contract...");
+    await connectAndCall(text);
+    console.log("connect ended...");
+
+    // setInputText(""); // Clear input after submission
+  };
 
   const initializeRecognition = () => {
     const recognitionInstance = new window.webkitSpeechRecognition(); // Use 'SpeechRecognition' for non-Chrome browsers
@@ -143,8 +189,8 @@ const VoiceRecorder = ({
       // Pass the hash to the smart contract
       console.log("Passing to Smart Contract...");
 
-      await passToCanister(hash);
-      console.log("SUccessfully uploaded to smart contract...");
+      await connectToSmartContract(hash);
+      console.log("Successfully uploaded to smart contract...");
 
       setTranscript("");
       onSuccess();
@@ -179,90 +225,36 @@ const VoiceRecorder = ({
     }
   };
 
-  const passToCanister = async (ipfsHash) => {
-    try {
-      // Initialize authentication client
-      const authClient = await AuthClient.create();
-
-      // Request the user to authenticate (connect to ICP wallet)
-      await authClient.login({
-        identityProvider: "https://identity.ic0.app/#authorize",
-      });
-
-      const identity = await authClient.getIdentity();
-
-      // Create an HttpAgent to interact with the ICP canister
-      const agent = new HttpAgent({ identity });
-
-      // If you're working locally, use this line to connect to a local replica:
-      // agent.fetchRootKey();
-
-      // Create an Actor to interact with the canister
-      const actor = Actor.createActor(canisterIDL, {
-        agent,
-        canisterId: canisterId,
-      });
-
-      // Call the canister function to store IPFS hash
-      const result = await actor.add(ipfsHash);
-
-      console.log("Transaction successful:", result);
-    } catch (error) {
-      console.error("Error calling canister:", error);
-    }
-  };
-
-  // // Interact with the smart contract
-  // const passToSmartContract = async (ipfsHash) => {
+  // const passToCanister = async (ipfsHash) => {
   //   try {
-  //     return;
-  //     // Request user to connect wallet (MetaMask)
-  //     await window.ethereum.request({ method: "eth_requestAccounts" });
+  //     // Initialize authentication client
+  //     const authClient = await AuthClient.create();
 
-  //     const provider = new ethers.providers.Web3Provider(window.ethereum);
-  //     const signer = provider.getSigner();
+  //     // Request the user to authenticate (connect to ICP wallet)
+  //     await authClient.login({
+  //       identityProvider: "https://identity.ic0.app/#authorize",
+  //     });
 
-  //     // Create a contract instance
-  //     const contract = new ethers.Contract(
-  //       contractAddress,
-  //       contractABI,
-  //       signer
-  //     );
+  //     const identity = await authClient.getIdentity();
 
-  //     // Call the contract function to store IPFS hash
-  //     const tx = await contract.storeIpfsHash(ipfsHash);
-  //     await tx.wait(); // Wait for the transaction to be confirmed
-  //     console.log("Transaction successful:", tx);
+  //     // Create an HttpAgent to interact with the ICP canister
+  //     const agent = new HttpAgent({ identity });
+
+  //     // If you're working locally, use this line to connect to a local replica:
+  //     // agent.fetchRootKey();
+
+  //     // Create an Actor to interact with the canister
+  //     const actor = Actor.createActor(canisterIDL, {
+  //       agent,
+  //       canisterId: canisterId,
+  //     });
+
+  //     // Call the canister function to store IPFS hash
+  //     const result = await actor.add(ipfsHash);
+
+  //     console.log("Transaction successful:", result);
   //   } catch (error) {
-  //     console.error("Error calling smart contract:", error);
-  //   }
-  // };
-
-  // const [date, setDate] = useState("");
-  // const [cid, setCid] = useState("");
-  // const [retrieveDate, setRetrieveDate] = useState("");
-  // const [result, setResult] = useState("");
-
-  // // Function to add CID
-  // const addCID = async () => {
-  //   try {
-  //     const tx = await ipfsContract.addCID(date, cid);
-  //     await tx.wait(); // Wait for the transaction to be mined
-  //     alert("CID added successfully!");
-  //   } catch (error) {
-  //     console.error("Failed to add CID:", error);
-  //     alert("Failed to add CID: " + error.message);
-  //   }
-  // };
-
-  // // Function to retrieve CIDs by date
-  // const getCIDs = async () => {
-  //   try {
-  //     const cids = await ipfsContract.getCIDs(retrieveDate);
-  //     setResult(`CIDs for ${retrieveDate}: ${cids.join(", ")}`);
-  //   } catch (error) {
-  //     console.error("Failed to retrieve CIDs:", error);
-  //     alert("Failed to retrieve CIDs: " + error.message);
+  //     console.error("Error calling canister:", error);
   //   }
   // };
 
