@@ -1,40 +1,82 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# ELna - Decentralized Medical History and Personal Data Storage Platform
 
-## Getting Started
+### Project Description
+ELna is a decentralized platform built on the Internet Computer (ICP) blockchain that allows users to securely store and manage their medical history and personal data. Users can upload and update daily life activities including text, photos, voice notes, PDFs, medical reports, and more. These data files are stored on IPFS (InterPlanetary File System), and their IPFS hash keys are stored on the ICP blockchain via smart contracts, ensuring security, privacy, and immutability.
 
-First, run the development server:
+### Key Features
+- Data Upload: Users can upload various types of data such as text, images, voice notes, PDFs, and medical reports.
++ IPFS Integration: All data is stored on IPFS, which provides decentralized storage.
+* Smart Contracts on ICP: The hash of the data stored on IPFS is securely stored on the ICP blockchain through smart contracts to ensure data integrity and privacy.
+- Data Security & Privacy: Leveraging ICP's decentralization and cryptography ensures that sensitive personal and medical data remains in the user's control without any central authority having access to or control over it.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### Why ICP Blockchain?
+The main reason for integrating the ICP blockchain into ELna is due to the need for high-level data security and privacy. This project deals with extremely sensitive personal and medical information that cannot be risked by entrusting it to any organization or centralized entity. Decentralization through the ICP blockchain ensures that no single entity has control over users' personal data, providing unmatched security, privacy, and transparency. This aligns with the goals of Web3, where individuals are in control of their own data.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## **Smart Contract Integration on ICP Blockchain**
+ELna uses the Internet Computer’s (ICP) decentralized smart contracts to store the IPFS hash of user data securely on-chain. Here's how we integrated ICP blockchain into the project:
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+1. IPFS Storage: After a user uploads any form of data (text, image, voice note, etc.), the data is first uploaded to IPFS, and the resulting IPFS hash (which uniquely identifies the file) is returned.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+2. Smart Contract Deployment: The IPFS hash is then passed to a smart contract deployed on the ICP blockchain, which securely stores the hash on-chain. This hash acts as a reference to the file, ensuring that the file's integrity and existence can always be verified.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+    - Smart Contract File: The interface for the ICP smart contract is defined in the `.did` (Candid Interface Definition) file, located at:
+```/backend/src/declarations/ccid_tracker/ccid_tracker.did```
+3. Interaction with Smart Contract: The smart contract on ICP is responsible for storing and retrieving the IPFS hash:
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+The method `add` stores the IPFS hash for a given data entry.
+The method `get` retrieves the IPFS hash based on the user’s request.
+Example of the smart contract integration can be found in:
 
-## Learn More
+```/frontend/src/components/VoiceRecorder.js```
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## **Deployment on ICP Blockchain**
+ELna is fully deployed on the Internet Computer (ICP) blockchain, enabling it to leverage the decentralization and security features offered by the ICP network. This deployment ensures that the platform is scalable, immutable, and protected from central control.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+- Canister ID: The project is hosted on an ICP canister, which handles the smart contract execution.
++ ICP Smart Contract: The smart contract stores users’ IPFS hashes, ensuring that the data is only accessible to the owner of the hash and never controlled by a third party.
 
-## Deploy on Vercel
+## **Code Breakdown**
++ Frontend Integration: The frontend of this project, built using React, includes a voice recorder feature that captures user inputs, uploads the file to IPFS, and interacts with the ICP smart contract to store the IPFS hash. Key files:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+    - Voice Recorder Component:
+        ```frontend/src/components/VoiceRecorder.js```
++ Smart Contract (IDL) Definition:
+The `.did` file contains the interface definition for the smart contract interaction.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+    - IDL (Candid) File:
+        ```backend/src/declarations/ccid_tracker/ccid_tracker.did```
+
+## **Technology Stck**
+- Frontend: React
+- Backend: ICP Smart Contracts, IPFS for file storage
+- Blockchain: Internet Computer (ICP)
+- Data Storage: IPFS (InterPlanetary File System)
+
+## **How to Run the Project Locally**
+1. Cone the repository:
+
+bash
+Copy code
+git clone https://github.com/your-repo/elna.git
+cd elna
+Install Dependencies:
+
+bash
+Copy code
+npm install
+Start Local Development Environment: Ensure dfx is installed and set up. Then, run:
+
+bash
+Copy code
+dfx start
+Deploy Smart Contract Locally:
+
+bash
+Copy code
+dfx deploy
+Run the Frontend:
+
+bash
+Copy code
+npm start
