@@ -20,14 +20,17 @@ ELna uses the Internet Computer’s (ICP) decentralized smart contracts to store
 2. Smart Contract Deployment: The IPFS hash is then passed to a smart contract deployed on the ICP blockchain, which securely stores the hash on-chain. This hash acts as a reference to the file, ensuring that the file's integrity and existence can always be verified.
 
     - Smart Contract File: The interface for the ICP smart contract is defined in the `.did` (Candid Interface Definition) file, located at:
-```/backend/src/declarations/ccid_tracker/ccid_tracker.did```
+```
+/backend/src/declarations/ccid_tracker/ccid_tracker.did
+```
 3. Interaction with Smart Contract: The smart contract on ICP is responsible for storing and retrieving the IPFS hash:
 
 The method `add` stores the IPFS hash for a given data entry.
 The method `get` retrieves the IPFS hash based on the user’s request.
 Example of the smart contract integration can be found in:
-
-```/frontend/src/components/VoiceRecorder.js```
+```
+/frontend/src/components/VoiceRecorder.js
+```
 
 
 ## **Deployment on ICP Blockchain**
@@ -40,12 +43,16 @@ ELna is fully deployed on the Internet Computer (ICP) blockchain, enabling it to
 + Frontend Integration: The frontend of this project, built using React, includes a voice recorder feature that captures user inputs, uploads the file to IPFS, and interacts with the ICP smart contract to store the IPFS hash. Key files:
 
     - Voice Recorder Component:
-        ```frontend/src/components/VoiceRecorder.js```
+        ```
+        frontend/src/components/VoiceRecorder.js
+        ```
 + Smart Contract (IDL) Definition:
 The `.did` file contains the interface definition for the smart contract interaction.
 
     - IDL (Candid) File:
-        ```backend/src/declarations/ccid_tracker/ccid_tracker.did```
+        ```
+        backend/src/declarations/ccid_tracker/ccid_tracker.did
+        ```
 
 ## **Technology Stck**
 - Frontend: React
