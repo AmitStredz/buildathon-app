@@ -4,13 +4,15 @@ import Header from "@/components/header";
 import VoiceRecorder from "@/components/voiceBot";
 
 import dynamic from "next/dynamic";
-const Chatbot = dynamic(() => import('@/components/chatbot'), { ssr: false });
+import { useRouter } from "next/router";
+const Chatbot = dynamic(() => import("@/components/chatbot"), { ssr: false });
 
 export default function HomePage() {
   const [successPopup, setSuccessPopup] = useState(false);
   const [failurePopup, setFailurePopUp] = useState(false);
   const [transcript, setTranscript] = useState("");
 
+  const router = useRouter();
   const handleTranscript = (transcript) => {
     console.log("transcript: ", transcript);
 
@@ -38,7 +40,14 @@ export default function HomePage() {
 
   return (
     <div className="w-screen h-screen bg-gradient-to-r from-[#00F260] to-[#0575E6] font-mono">
-      <Header />
+      {/* <Header /> */}
+      <div className="p-5 mx-10">
+        <img
+          src="/assets/logo.png"
+          className="w-40 cursor-pointer"
+          onClick={() => router.push("/")}
+        ></img>
+      </div>
 
       <div className="w-full p-20 flex justify-center items-center">
         <div className="flex flex-col w-full p-20">
@@ -98,7 +107,6 @@ export default function HomePage() {
         </div>
       )}
       <Chatbot />
-
     </div>
   );
 }
