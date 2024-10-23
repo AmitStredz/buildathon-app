@@ -1,12 +1,11 @@
 type DateData = record {
     date : int64;
-    ccids : vec nat32;
+    ccids : vec text;  // Change from vec nat32 to vec text
 };
 
 service : {
-    add : (text) -> (nat32);
+    add_hash : (text) -> (text);  // Change return type to text instead of nat32
     get_date_data : (int64) -> (opt DateData) query;
     get_all_data : () -> (vec DateData) query;
     format_date : (int64) -> (text) query;
 }
-

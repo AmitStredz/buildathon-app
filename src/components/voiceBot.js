@@ -29,8 +29,8 @@ const VoiceRecorder = ({
       console.log("creating agent...");
 
       const agent = new HttpAgent({
-        host: "https://ic0.app", // mainnet
-        // host: 'http://localhost:4943', // local
+        // host: "https://ic0.app", // mainnet
+        host: 'https://a4gq6-oaaaa-aaaab-qaa4q-cai.raw.icp0.io/', // local
       });
 
       // Only needed for local development
@@ -43,18 +43,24 @@ const VoiceRecorder = ({
 
       const actor = Actor.createActor(idlFactory, {
         agent,
-        canisterId: "6ldcj-gyaaa-aaaab-qacsa-cai",
+        canisterId: "ocpcu-jaaaa-aaaab-qab6q-cai",
       });
 
       // Call the add function
       try {
         console.log("calling add function...");
-        const result = await actor.add(text);
+        const result = await actor.add_hash("hello baby how are you.");
         console.log("Smart contract add result: ", result);
       } catch (error) {
         console.error("Error while calling smart contract add:", error);
       }
-      const datedata = await actor.get_all_data();
+      try {
+        console.log("calling datedata function...");
+        const datedata = await actor.get_all_data();
+        console.log("Smart contract datedata result: ", datedata);
+      } catch (error) {
+        console.error("Error while calling smart contract add:", error);
+      }
 
       console.log("function called: ", result);
       console.log("Datedata: ", datedata);
@@ -261,8 +267,10 @@ const VoiceRecorder = ({
   return (
     <div className=" relative">
       <button
-        onClick={toggleRecording}
+        // onClick={toggleRecording}
+        onClick={()=>connectAndCall()}
         className={`flex items-center justify-center bg-[#358be2cc] ${dynamicPaddingClass} rounded-full cursor-pointer`}
+
       >
         {isRecording ? (
           <BsFillStopCircleFill size={size} />
