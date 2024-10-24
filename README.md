@@ -43,7 +43,7 @@ You can find the repository for the chat-widget here:
 
 ELna AI Chat-Widget Repository: 
 ```
-https://github.com/amalendu123/chat-widget.git
+https://github.com/AmitStredz/elna-chat-widget.git
 ```
 
 
