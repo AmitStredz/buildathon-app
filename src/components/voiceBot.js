@@ -43,13 +43,13 @@ const VoiceRecorder = ({
 
       const actor = Actor.createActor(idlFactory, {
         agent,
-        canisterId: "ocpcu-jaaaa-aaaab-qab6q-cai",
+        canisterId: "6qg6m-4aaaa-aaaab-qacqq-cai",
       });
-
+      
       // Call the add function
       try {
         console.log("calling add function...");
-        const result = await actor.add_hash("hello baby how are you.");
+        const result = await actor.add_hash(text);
         console.log("Smart contract add result: ", result);
       } catch (error) {
         console.error("Error while calling smart contract add:", error);
@@ -267,8 +267,8 @@ const VoiceRecorder = ({
   return (
     <div className=" relative">
       <button
-        // onClick={toggleRecording}
-        onClick={()=>connectAndCall()}
+        onClick={toggleRecording}
+        // onClick={()=>connectAndCall()}
         className={`flex items-center justify-center bg-[#358be2cc] ${dynamicPaddingClass} rounded-full cursor-pointer`}
 
       >
