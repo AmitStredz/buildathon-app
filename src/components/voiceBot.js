@@ -30,7 +30,7 @@ const VoiceRecorder = ({
 
       const agent = new HttpAgent({
         // host: "https://ic0.app", // mainnet
-        host: process.env.host, // local
+        host: "https://a4gq6-oaaaa-aaaab-qaa4q-cai.raw.icp0.io/", // local
       });
 
       // Only needed for local development
@@ -43,7 +43,7 @@ const VoiceRecorder = ({
 
       const actor = Actor.createActor(idlFactory, {
         agent,
-        canisterId: process.env.canisterId,
+        canisterId: "7gngh-jqaaa-aaaab-qacvq-cai",
       });
 
       // Call the add function
@@ -56,7 +56,7 @@ const VoiceRecorder = ({
       }
       try {
         console.log("calling datedata function...");
-        const datedata = await actor.get_all_data();
+        const datedata = await actor.get_date_data(20241028);
         console.log("Smart contract datedata result: ", datedata);
       } catch (error) {
         console.error("Error while calling smart contract add:", error);
