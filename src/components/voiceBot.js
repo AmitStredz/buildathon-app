@@ -30,7 +30,7 @@ const VoiceRecorder = ({
 
       const agent = new HttpAgent({
         // host: "https://ic0.app", // mainnet
-        host: 'https://a4gq6-oaaaa-aaaab-qaa4q-cai.raw.icp0.io/', // local
+        host: process.env.host, // local
       });
 
       // Only needed for local development
@@ -43,9 +43,9 @@ const VoiceRecorder = ({
 
       const actor = Actor.createActor(idlFactory, {
         agent,
-        canisterId: "6qg6m-4aaaa-aaaab-qacqq-cai",
+        canisterId: process.env.canisterId,
       });
-      
+
       // Call the add function
       try {
         console.log("calling add function...");
@@ -270,7 +270,6 @@ const VoiceRecorder = ({
         onClick={toggleRecording}
         // onClick={()=>connectAndCall()}
         className={`flex items-center justify-center bg-[#358be2cc] ${dynamicPaddingClass} rounded-full cursor-pointer`}
-
       >
         {isRecording ? (
           <BsFillStopCircleFill size={size} />
