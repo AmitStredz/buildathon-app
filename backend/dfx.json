@@ -1,23 +1,28 @@
 {
-  "version": 1,
-  "canisters": {
-      "ccid_tracker": {
-          "type": "rust",
-          "package": "ccid_tracker",
-          "candid": "src/declarations/ccid_tracker/ccid_tracker.did"
-      }
-  },
-  "defaults": {
-      "build": {
-          "packtool": "",
-          "args": ""
-      }
-  },
-  "networks": {
-      "local": {
-          "bind": "127.0.0.1:8000",
-          "type": "ephemeral"
-      }
-  },
-  "output_env_file": ".env"
+    "version": 1,
+    "canisters": {
+        "ccid_tracker": {
+            "type": "rust",
+            "package": "ccid_tracker",
+            "candid": "src/ccid_tracker/ccid_tracker.did",
+            "declarations": {
+                "output": "src/declarations/ccid_tracker",
+                "node_compatibility": true,
+                "bindings": ["js", "ts", "did", "mo"]
+            }
+        }
+    },
+    "defaults": {
+        "build": {
+            "packtool": "cargo",
+            "args": ""
+        }
+    },
+    "networks": {
+        "local": {
+            "bind": "0.0.0.0:8080",
+            "type": "ephemeral"
+        }
+    },
+    "output_env_file": ".env"
 }
