@@ -4,11 +4,17 @@ use serde::{Deserialize, Serialize};
 use std::cell::RefCell;
 use std::collections::HashMap;
 
-// Structure to store CCID data for a specific date
 #[derive(Debug, CandidType, Deserialize, Serialize)]
 pub struct DateRecord {
     date: i64,
-    ccids: Vec<String>,  // Using String for CCIDs
+    ccids: Vec<String>,
+}
+
+#[derive(Debug, CandidType, Deserialize, Serialize)]
+pub struct UserDateRecord {
+    owner: Principal,
+    date: i64,
+    ccids: Vec<String>,
 }
 
 #[derive(Default)]
@@ -18,9 +24,8 @@ struct RuntimeState {
 
 #[derive(Default)]
 struct CcidState {
-    // Map of date (as timestamp) to vector of CCIDs for that date
-    ccids_by_date: HashMap<i64, Vec<String>>,
-    // Counter for total CCIDs (if needed)
+    // Map of user principal -> (date -> ccids)
+    user_ccids: HashMap<Principal, HashMap<i64, Vec<String>>>,
     total_ccids: u32,
 }
 
@@ -32,7 +37,6 @@ fn days_to_ymd(days: i64) -> (i32, u8, u8) {
     let year = 1970 + (days / 365) as i32;
     let mut rem_days = days % 365;
     
-    // Account for leap years
     let leap_years = (year - 1969) / 4;
     rem_days -= leap_years as i64;
     
@@ -50,7 +54,9 @@ fn days_to_ymd(days: i64) -> (i32, u8, u8) {
 }
 
 #[update]
-fn add_hash(hash_input: String) -> String {  // Changed name back to add_hash
+fn add_hash(hash_input: String) -> String {
+    let caller = ic_cdk::caller();
+    
     RUNTIME_STATE.with(|state| {
         let mut state = state.borrow_mut();
         let current_time = ic_cdk::api::time();
@@ -59,13 +65,17 @@ fn add_hash(hash_input: String) -> String {  // Changed name back to add_hash
         let (year, month, day) = days_to_ymd(days_since_epoch);
         let date_key = (year as i64) * 10000 + (month as i64) * 100 + (day as i64);
         
-        // Store hash for the date
-        state.ccid.ccids_by_date
+        // Get or create the user's data map
+        let user_data = state.ccid.user_ccids
+            .entry(caller)
+            .or_insert_with(HashMap::new);
+        
+        // Add the hash to the user's data for this date
+        user_data
             .entry(date_key)
             .or_insert_with(Vec::new)
             .push(hash_input.clone());
         
-        // Increment total CCIDs counter
         state.ccid.total_ccids += 1;
         
         hash_input
@@ -73,27 +83,41 @@ fn add_hash(hash_input: String) -> String {  // Changed name back to add_hash
 }
 
 #[query]
-fn get_date_data(timestamp: i64) -> Option<DateRecord> {  // Changed name back to get_date_data
+fn get_date_data(timestamp: i64) -> Option<DateRecord> {
+    let caller = ic_cdk::caller();
+    
     RUNTIME_STATE.with(|state| {
         let state = state.borrow();
-        state.ccid.ccids_by_date.get(&timestamp).map(|ccids| DateRecord {
-            date: timestamp,
-            ccids: ccids.clone(),
-        })
+        state.ccid.user_ccids
+            .get(&caller)
+            .and_then(|user_data| {
+                user_data.get(&timestamp).map(|ccids| DateRecord {
+                    date: timestamp,
+                    ccids: ccids.clone(),
+                })
+            })
     })
 }
 
 #[query]
-fn get_all_data() -> Vec<DateRecord> {  // Changed name back to get_all_data
+fn get_all_data() -> Vec<UserDateRecord> {
+    let caller = ic_cdk::caller();
+    
     RUNTIME_STATE.with(|state| {
         let state = state.borrow();
-        state.ccid.ccids_by_date
-            .iter()
-            .map(|(&date, ccids)| DateRecord {
-                date,
-                ccids: ccids.clone(),
-            })
-            .collect()
+        match state.ccid.user_ccids.get(&caller) {
+            Some(user_data) => {
+                user_data
+                    .iter()
+                    .map(|(&date, ccids)| UserDateRecord {
+                        owner: caller,
+                        date,
+                        ccids: ccids.clone(),
+                    })
+                    .collect()
+            }
+            None => Vec::new(),
+        }
     })
 }
 
@@ -103,6 +127,12 @@ fn format_date(date_key: i64) -> String {
     let month = (date_key % 10000) / 100;
     let day = date_key % 100;
     format!("{:04}-{:02}-{:02}", year, month, day)
+}
+
+// New helper function to get user's principal
+#[query]
+fn get_user_principal() -> Principal {
+    ic_cdk::caller()
 }
 
 // Export Candid interface

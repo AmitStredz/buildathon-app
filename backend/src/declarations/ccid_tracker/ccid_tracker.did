@@ -1,11 +1,18 @@
-type DateData = record {
-    date : int64;
-    ccids : vec text;  // Change from vec nat32 to vec text
+type DateRecord = record {
+    date: int64;
+    ccids: vec text;
+};
+
+type UserDateRecord = record {
+    owner: principal;
+    date: int64;
+    ccids: vec text;
 };
 
 service : {
-    add_hash : (text) -> (text);  // Change return type to text instead of nat32
-    get_date_data : (int64) -> (opt DateData) query;
-    get_all_data : () -> (vec DateData) query;
-    format_date : (int64) -> (text) query;
-}
+    "add_hash" : (text) -> (text);
+    "get_date_data" : (int64) -> (opt DateRecord) query;
+    "get_all_data" : () -> (vec UserDateRecord) query;
+    "format_date" : (int64) -> (text) query;
+    "get_user_principal" : () -> (principal) query;
+};
